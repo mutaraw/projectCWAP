@@ -5,6 +5,8 @@
 This strategy is a multi-timeframe cross strategy on TradingView based on weighted average prices and developed by William Mutara. It is inspired by the already famous VWAP indiator.
 
 # CWAP_LTF & CWAP_HTF Cross Strategy
+# OVERVIEW
+![TRADINGVIEWEXAMPLE](https://github.com/user-attachments/assets/7623b5c6-b02e-44db-aef6-6b038f2a4796)
 
 ## **Concept of the Strategy**
 
@@ -171,3 +173,14 @@ This strategy combines higher timeframe confirmation with lower timeframe execut
 
 --- 
 ```
+### Trade Analysis
+![trade analysis](https://github.com/user-attachments/assets/97dafdea-8ae4-47b4-837c-4dccd6a7879b)
+
+### Risk & Performance
+![risk performance](https://github.com/user-attachments/assets/84152fb8-2db4-46f6-9a8a-d858ceaaf426)
+
+### Performace
+![preformance](https://github.com/user-attachments/assets/e1a36586-659f-49ce-98b5-6371d4159c7f)
+
+### List of trades
+![LISTOFTRADES](https://github.com/user-attachments/assets/7711b2ea-ebd3-4efa-8d2d-56f44d0a331a)
