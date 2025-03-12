@@ -1,7 +1,8 @@
-// This Pine Script™ code is subject to the terms of the Mozilla Public License 2.0 at https://mozilla.org/MPL/2.0/
 // © watchdawg2025
+// © 2025 William Mutara. All Rights Reserved. 
+// This code is not licensed for distribution or modification. Unauthorized use is prohibited.
 
-//@version=5
+//@version=6
 strategy("CWAP_LTF & CWAP_HTF Cross Strategy[WILLIAM MUTARA]", overlay=false, process_orders_on_close = false)
 import TradingView/ta/9
 
