@@ -1,5 +1,8 @@
 # Project CWAP
-@copyright This strategy is a multi-timeframe cross strategy on TradingView based on weighted average prices and developed by William Mutara. It is inspired by the already famous VWAP indiator.
+
+**©2025 William Mutara. All Rights Reserved. This code is not licensed for distribution or modification. Unauthorized use is prohibited.**
+
+This strategy is a multi-timeframe cross strategy on TradingView based on weighted average prices and developed by William Mutara. It is inspired by the already famous VWAP indiator.
 
 # CWAP_LTF & CWAP_HTF Cross Strategy
 
