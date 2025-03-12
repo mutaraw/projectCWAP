@@ -1,0 +1,89 @@
+// This Pine Script™ code is subject to the terms of the Mozilla Public License 2.0 at https://mozilla.org/MPL/2.0/
+// © watchdawg2025
+
+//@version=5
+strategy("CWAP_LTF & CWAP_HTF Cross Strategy[WILLIAM MUTARA]", overlay=false, process_orders_on_close = false)
+import TradingView/ta/9
+
+// === Check for New Day ===
+isNewDay = dayofmonth != dayofmonth[1]
+
+// === CWAP (Close-Weighted Average Price) Calculation ===
+var float cumulativeWeightedClose = na
+var float cumulativeClose = na
+
+if isNewDay
+    cumulativeWeightedClose := close * close
+    cumulativeClose := close
+else
+    cumulativeWeightedClose := nz(cumulativeWeightedClose) + close * close
+    cumulativeClose := nz(cumulativeClose) + close
+
+cwap_ltf = cumulativeWeightedClose / cumulativeClose
+
+// === OWAP (Open-Weighted Average Price) Calculation ===
+var float cumulativeWeightedOpen = na
+var float cumulativeOpen = na
+
+if isNewDay
+    cumulativeWeightedOpen := open * open
+    cumulativeOpen := open
+else
+    cumulativeWeightedOpen := nz(cumulativeWeightedOpen) + open * open
+    cumulativeOpen := nz(cumulativeOpen) + open
+
+owap_ltf = cumulativeWeightedOpen / cumulativeOpen
+
+// === HWAP (High-Weighted Average Price) Calculation ===
+var float cumulativeWeightedHigh = na
+var float cumulativeHigh = na
+
+if isNewDay
+    cumulativeWeightedHigh := high * high
+    cumulativeHigh := high
+else
+    cumulativeWeightedHigh := nz(cumulativeWeightedHigh) + high * high
+    cumulativeHigh := nz(cumulativeHigh) + high
+
+hwap_ltf = cumulativeWeightedHigh / cumulativeHigh
+
+// === LWAP (Low-Weighted Average Price) Calculation ===
+var float cumulativeWeightedLow = na
+var float cumulativeLow = na
+
+if isNewDay
+    cumulativeWeightedLow := low * low
+    cumulativeLow := low
+else
+    cumulativeWeightedLow := nz(cumulativeWeightedLow) + low * low
+    cumulativeLow := nz(cumulativeLow) + low
+
+lwap_ltf = cumulativeWeightedLow / cumulativeLow
+
+// === Request Higher Timeframe (HTF) Values ===
+/// vwap_htf = request.security(syminfo.tickerid, "8", ta.vwap, gaps=barmerge.gaps_on, lookahead=barmerge.lookahead_on)
+cwap_htf = request.security(syminfo.tickerid, "8", cwap_ltf, gaps=barmerge.gaps_on, lookahead=barmerge.lookahead_on)
+owap_htf = request.security(syminfo.tickerid, "8", owap_ltf, gaps=barmerge.gaps_on, lookahead=barmerge.lookahead_on)
+hwap_htf = request.security(syminfo.tickerid, "8", hwap_ltf, gaps=barmerge.gaps_on, lookahead=barmerge.lookahead_on)
+lwap_htf = request.security(syminfo.tickerid, "8", lwap_ltf, gaps=barmerge.gaps_on, lookahead=barmerge.lookahead_on)
+
+// === Plot CWAP, OWAP, HWAP, LWAP, CLOSE_HTF ===
+plot(cwap_ltf, title="HWAP", color=color.orange, linewidth=2)
+plot(cwap_htf, title="OWAP HTF", color=color.red, linewidth=2)
+
+// === Plot CWAP, OWAP, HWAP, LWAP Candles ===
+candle_color = owap_htf < cwap_htf ? color.teal : color.red
+plotcandle(owap_htf, hwap_htf, lwap_htf, cwap_htf, wickcolor = candle_color, bordercolor = candle_color, color = candle_color)
+
+// === Entry Conditions ===
+longCondition = ta.crossover(cwap_htf, cwap_ltf)
+shortCondition = ta.crossunder(cwap_htf, cwap_ltf)
+
+// === Executions ===
+if longCondition
+    strategy.entry("Long", strategy.long, qty=1)
+    alert("Buy Alert!", alert.freq_once_per_bar_close)
+
+if shortCondition
+    strategy.entry("Short", strategy.short, qty=1)
+    alert("Sell Alert!", alert.freq_once_per_bar_close)
